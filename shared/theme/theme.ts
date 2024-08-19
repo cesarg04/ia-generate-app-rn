@@ -29,7 +29,7 @@ const theme = {
     ...DefaultTheme.colors,
     primary: '#3498db',
     accent: '#f1c40f',
-    background: '#f5f5f5',
+    background: '#251F48',
     surface: '#ffffff',
     text: '#333333',
     error: '#f13a59',
@@ -38,6 +38,7 @@ const theme = {
     placeholder: '#c4c4c4',
     backdrop: '#00000050',
     notification: '#f50057',
+    inputs: '#514983'
   },
 //   fonts: configureFonts({ config: fontConfig, isV3: false }),
 };

@@ -3,8 +3,9 @@ import TextField from '@/shared/components/TextField';
 import React from 'react'
 import { Form, FormProvider, useForm } from 'react-hook-form';
 import { View, Text, Alert } from 'react-native'
-import { Button, MD3Theme, useTheme } from 'react-native-paper';
+import {  MD3Theme, useTheme } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
+import Button from '@/shared/components/Button';
 
 const SignIn = () => {
 
@@ -25,7 +26,7 @@ const SignIn = () => {
     return (
         <FormProvider {...formConfig} >
             {/* <form style={{ width: "100%" }} onSubmit={formConfig.handleSubmit(onSubmit)} > */}
-            <View  >
+            <View style={{ paddingHorizontal: 20 }} >
 
                 <Text>
 
