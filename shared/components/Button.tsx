@@ -8,8 +8,15 @@ interface IButtonProps extends ButtonProps {
 
 const Button = (props: IButtonProps) => {
 
+    const config: ButtonProps = {
+        ...props,
+        style: {
+            height: 70
+        }
+    }
+
     return (
-        <Button { ...props } />
+        <Button {...config} />
     )
 }
 
