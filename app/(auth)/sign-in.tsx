@@ -1,59 +1,86 @@
-import FormControl from '@/shared/components/FormControl';
-import TextField from '@/shared/components/TextField';
-import React from 'react'
-import { Form, FormProvider, useForm } from 'react-hook-form';
-import { View, Text, Alert } from 'react-native'
-import {  MD3Theme, useTheme } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
-import Button from '@/shared/components/Button';
+import FormControl from "@/shared/components/form-control/FormControl";
+import TextField from "@/shared/components/text-field/TextField";
+import React from "react";
+import { Form, FormProvider, useForm } from "react-hook-form";
+import { View, Text, Alert, Platform } from "react-native";
+import { MD3Theme, TextInput, useTheme } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import Button from "@/shared/components/buttons/Button";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  signInFormDefaultValues,
+  signInFormSchema,
+  SignInFormType,
+} from "@/public/auth/sign-in/util/schema.util";
+import FormError from "@/shared/components/form-error/FormError";
+import FormLabel from "@/shared/components/form-label/FormLabel";
+import { fontFamilies } from "@/shared/constants/fonts.const";
 
 const SignIn = () => {
+  const formConfig = useForm<SignInFormType>({
+    defaultValues: signInFormDefaultValues,
+    resolver: yupResolver(signInFormSchema),
+  });
 
-    const formConfig = useForm({
-        defaultValues: {
-            hello: ""
-        }
-    })
+  const onSubmit = (values: any) => {
+    console.log(values);
+    // Alert.alert(JSON.stringify(values))
+  };
 
+  const theme = useTheme();
 
-    const onSubmit = (values: any) => {
-        console.log(values)
-        // Alert.alert(JSON.stringify(values))
-    }
+  return (
+    <FormProvider {...formConfig}>
+      <View style={styles.container}>
+        
+        <View  >
+            <Text style={styles.title} >
+                Generate PDF IA
+            </Text>
+        </View>
 
-    const theme = useTheme()
+        <FormControl name="email">
+          <FormLabel>Correo electronico</FormLabel>
+          <TextField />
+          <FormError />
+        </FormControl>
 
-    return (
-        <FormProvider {...formConfig} >
-            {/* <form style={{ width: "100%" }} onSubmit={formConfig.handleSubmit(onSubmit)} > */}
-            <View style={{ paddingHorizontal: 20 }} >
+        <FormControl name="password">
+          <FormLabel>Contraseña</FormLabel>
+          <TextField type="pass" />
+          <FormError />
+        </FormControl>
 
-                <Text>
-
-                </Text>
-
-                <FormControl name='hello' >
-                    <TextField />
-                </FormControl>
-
-                <Button
-                    mode='contained'
-                    onPress={formConfig.handleSubmit(onSubmit)}
-                >
-                    Send
-                </Button>
-            </View>
-
-            {/* </form> */}
-        </FormProvider>
-    )
-}
+        <Button
+          mode="contained"
+          onPress={formConfig.handleSubmit(onSubmit)}
+          color={theme.colors.error}
+        >
+          Iniciar Sesion
+        </Button>
+      </View>
+    </FormProvider>
+  );
+};
 
 export default SignIn;
 
-// const styles = StyleSheet.create({
-//     container: (theme: any) => ({
-//         flex: 1,
-//         backgroundColor: theme.colors.
-//     })
-// })
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    justifyContent: "center",
+    gap: 5
+  },
+  containerTitle: {
+
+  },
+  title: {
+    fontSize: 50,
+    fontFamily: Platform.select(fontFamilies.Black),
+    color: 'white',
+    textAlign: 'center'
+  }
+});
