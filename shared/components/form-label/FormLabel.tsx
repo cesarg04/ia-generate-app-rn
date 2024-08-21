@@ -12,7 +12,7 @@ const FormLabel = (props: IFormLabelProps) => {
     <Text
       style={{
         ...styles.text,
-        fontFamily: Platform.select(fontFamilies.Medium),
+        fontFamily: Platform.select(fontFamilies.Bold),
       }}
     >
       {props.children}

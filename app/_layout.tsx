@@ -5,7 +5,6 @@ import theme from "@/shared/theme/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
 import {
   useFonts,
   MPLUSRounded1c_100Thin,
@@ -18,6 +17,7 @@ import {
 } from "@expo-google-fonts/m-plus-rounded-1c";
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from "react";
+import { SafeAreaView } from "react-native";
 
 const queryClient = new QueryClient();
 
@@ -46,7 +46,7 @@ const MainLayout = () => {
     return (
       <QueryClientProvider client={queryClient}>
         <PaperProvider theme={theme}>
-          <SafeAreaView style={{ width: "100%", height: "100%" }}>
+          <SafeAreaView style={{ flex: 1}}>
             <StatusBar backgroundColor="#0066B1" style="light" />
             <Stack
               screenOptions={{
