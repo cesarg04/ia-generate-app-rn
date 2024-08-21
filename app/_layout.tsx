@@ -15,9 +15,10 @@ import {
   MPLUSRounded1c_800ExtraBold,
   MPLUSRounded1c_900Black,
 } from "@expo-google-fonts/m-plus-rounded-1c";
-import * as SplashScreen from 'expo-splash-screen';
+import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { SafeAreaView } from "react-native";
+import ModalContext from "@/shared/contexts/modal/ModalContext";
 
 const queryClient = new QueryClient();
 
@@ -42,11 +43,12 @@ const MainLayout = () => {
   if (!loaded && !error) {
     return null;
   }
-  
-    return (
-      <QueryClientProvider client={queryClient}>
-        <PaperProvider theme={theme}>
-          <SafeAreaView style={{ flex: 1}}>
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <PaperProvider theme={theme}>
+        <ModalContext>
+          <SafeAreaView style={{ flex: 1 }}>
             <StatusBar backgroundColor="#0066B1" style="light" />
             <Stack
               screenOptions={{
@@ -58,10 +60,10 @@ const MainLayout = () => {
               initialRouteName="sign-in"
             />
           </SafeAreaView>
-        </PaperProvider>
-      </QueryClientProvider>
-    );
-  
+        </ModalContext>
+      </PaperProvider>
+    </QueryClientProvider>
+  );
 };
 
 export default MainLayout;
