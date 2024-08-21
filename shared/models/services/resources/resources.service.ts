@@ -1,8 +1,8 @@
 import { apiAdapter } from "@/shared/api/base.api";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IGetListResponse } from "./get-list-resources.response";
-import { ICreateResourceResponse } from "./create-resource.response";
-import { RESOURCES_KEYS } from "../keys/resources.keys";
+import { IGetListResponse } from "./responses/get-list-resources.response";
+import { ICreateResourceResponse } from "./responses/create-resource.response";
+import { RESOURCES_KEYS } from "./keys/resources.keys";
 
 interface resourcesOptions {
   id?: string;

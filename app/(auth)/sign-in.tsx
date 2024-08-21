@@ -1,6 +1,6 @@
 import FormControl from "@/shared/components/form-control/FormControl";
 import TextField from "@/shared/components/text-field/TextField";
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, FormProvider, useForm } from "react-hook-form";
 import { View, Text, Alert, Platform, ScrollView } from "react-native";
 import { MD3Theme, TextInput, useTheme } from "react-native-paper";
@@ -17,10 +17,12 @@ import FormLabel from "@/shared/components/form-label/FormLabel";
 import { fontFamilies } from "@/shared/constants/fonts.const";
 import { authService } from "@/shared/models/services/auth/auth.service";
 import { ENVIRONMENT_VAR } from "@/shared/constants/env/env.const";
+import useModal from "@/shared/hooks/useModal";
 
 const SignIn = () => {
 
   const { loginMutation } = authService()
+  const { modal, onClose } = useModal()
 
   const formConfig = useForm<SignInFormType>({
     defaultValues: signInFormDefaultValues,
@@ -42,6 +44,21 @@ const SignIn = () => {
   };
 
   const theme = useTheme();
+
+  useEffect(() => {
+
+    modal({
+      template: <View>
+        <Text>This is the modal jajaj</Text>
+      </View>
+    })
+
+    // setTimeout(() => {
+    //   onClose()
+    // }, 2000);
+  
+  }, [])
+  
 
   return (
     <FormProvider {...formConfig}>
