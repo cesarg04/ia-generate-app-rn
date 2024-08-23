@@ -13,15 +13,11 @@ import {
   IModalFunctionOptions,
   IModalReturn,
 } from "./modal-context.types";
-
-export const ModalsContext = createContext<IModalReturn | undefined>(undefined);
-
 import React from "react";
 import { Modal, Portal } from "react-native-paper";
 import { StyleSheet } from "react-native";
-import theme from "@/shared/theme/theme";
 
-
+export const ModalsContext = createContext<IModalReturn | undefined>(undefined);
 
 const ModalContextProvider = ({ children }: IModalContextProviderProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +28,7 @@ const ModalContextProvider = ({ children }: IModalContextProviderProps) => {
   const modal = useCallback((p: IModalFunctionOptions) => {
     setIsOpen(true);
     metaRef.current = p;
+    console.log(metaRef, 'Meta ref')
     return new Promise<IEventModal>((resolve) => {
       promiseRef.current = resolve;
     });
@@ -55,6 +52,8 @@ const ModalContextProvider = ({ children }: IModalContextProviderProps) => {
       promiseRef.current({ type: EModalEventType.CONFIRM, value });
   }, []);
 
+  console.log('meta red', metaRef.current?.template)
+
   return (
     <ModalsContext.Provider
       value={{
@@ -69,8 +68,7 @@ const ModalContextProvider = ({ children }: IModalContextProviderProps) => {
         <Portal>
           <Modal
             visible={isOpen}
-            // onDismiss={hideModal}
-            contentContainerStyle={styles.modalStyles}
+            contentContainerStyle={[styles.modalStyles, metaRef.current?.options?.style]}
             style={metaRef.current?.options?.style}
           >
             {React.cloneElement(metaRef.current?.template as ReactElement, {})}
@@ -90,11 +88,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 16,
     marginHorizontal: 20,
-    minHeight: 200,
     borderRadius: 40,
-    // padding: 10,
-    // color: 'white',
-    // borderColor: 'white'
   },
   wrap: {
     width: "90%",

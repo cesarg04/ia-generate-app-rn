@@ -4,17 +4,27 @@ import { StyleSheet, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button, Text } from "react-native-paper";
 import theme from "@/shared/theme/theme";
+import { useMemo } from "react";
 
 export interface ICustomAlertProps {
   type: "success" | "error" | "warning" | "info" | "default";
-  // color: TypographyProps["color"]; //
   message: string;
   declineBtnMessage?: string;
   confirmBtnMessage?: string;
+  onClose?: () => void;
+  onConfirm?: () => void;
 }
 
 const CustomAlertTemplate = (props: ICustomAlertProps) => {
   const stylesType = stylesMap[props.type];
+
+  const showButtonDecline = useMemo(() => {
+    return (
+      props.type === "default" ||
+      props.type === "info" ||
+      props.type === "warning"
+    );
+  }, [props.type]);
 
   return (
     <View style={styles.container}>
@@ -26,19 +36,31 @@ const CustomAlertTemplate = (props: ICustomAlertProps) => {
         />
       </View>
       <View>
-        <Text style={[stylesType.text]}>{props.message}</Text>
+        <Text style={[stylesType.text, { textAlign: "center" }]}>
+          {props.message}
+        </Text>
       </View>
 
       <View style={styles.buttonsContainer}>
-        <View style={styles.buttonContent} >
-          <Button buttonColor={theme.colors.error} mode="outlined">
-            Cancelar
-          </Button>
-        </View>
+        {showButtonDecline && (
+          <View style={styles.buttonContent}>
+            <Button
+              textColor={theme.colors.inverseOnSurface}
+              mode="outlined"
+              onPress={props.onClose}
+            >
+              {props.declineBtnMessage ? props.declineBtnMessage : "Cancelar"}
+            </Button>
+          </View>
+        )}
 
-        <View style={styles.buttonContent} >
-          <Button buttonColor={theme.colors.primary} mode="contained">
-            Ok
+        <View style={styles.buttonContent}>
+          <Button
+            buttonColor={theme.colors.primary}
+            mode="contained"
+            onPress={props.onConfirm}
+          >
+            {props.confirmBtnMessage ? props.confirmBtnMessage : "Ok"}
           </Button>
         </View>
       </View>
@@ -54,14 +76,17 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     textAlign: "center",
+    paddingVertical: 10,
   },
   iconContainer: {},
   buttonsContainer: {
     width: "100%",
     display: "flex",
     justifyContent: "space-around",
-    flexDirection: 'row',
-    marginTop: 10
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginTop: 10,
+    flex: 1,
   },
   buttonContent: {
     width: "40%",

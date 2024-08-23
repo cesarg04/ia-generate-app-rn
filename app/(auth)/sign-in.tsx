@@ -19,49 +19,39 @@ import { authService } from "@/shared/models/services/auth/auth.service";
 import { ENVIRONMENT_VAR } from "@/shared/constants/env/env.const";
 import useModal from "@/shared/hooks/useModal";
 import CustomAlertTemplate from "@/shared/components/alert/CustomAlertTemplate";
+import useAlert from "@/shared/hooks/useAlert";
+import theme from "@/shared/theme/theme";
+import { useNavigation, useRouter } from "expo-router";
 
 const SignIn = () => {
-
-  const { loginMutation } = authService()
-  const { modal, onClose } = useModal()
-
+  const router = useRouter();
+  const { loginMutation } = authService();
+  const { alert } = useAlert();
   const formConfig = useForm<SignInFormType>({
     defaultValues: signInFormDefaultValues,
     resolver: yupResolver(signInFormSchema),
   });
 
-  const onSubmit = async(values: SignInFormType) => {
-    console.log(ENVIRONMENT_VAR.API_URL)
+  const onSubmit = async (values: SignInFormType) => {
     try {
-
-      const mutation = await loginMutation.mutateAsync({ body: { ...values } })
-      console.log(mutation.data)
-    } catch (error) {
-      // console.log( JSON.stringify(error) )
-      // console.log(error.response.data)
+      const mutation = await loginMutation.mutateAsync({ body: { ...values } });
+      // alert({
+      //   message: "Usuario creado satisfactoriamente",
+      //   type: "info",
+      // });
+    } catch (error: any) {
+      alert({
+        message: error.response.data,
+        type: "error",
+      }).then((data) => {
+        console.log();
+      });
     }
-
-    // Alert.alert(JSON.stringify(values))
   };
-
-  const theme = useTheme();
-
-  useEffect(() => {
-
-    modal({
-      template: <CustomAlertTemplate message="Hello word this is my first app in reacr native" type="info" />
-    })
-
-    // setTimeout(() => {
-    //   onClose()
-    // }, 2000);
-  
-  }, [])
-  
 
   return (
     <FormProvider {...formConfig}>
-      <ScrollView contentContainerStyle={{ flex: 1 }} >
+      <ScrollView contentContainerStyle={{ flex: 1 }}>
         <View style={styles.container}>
           <View>
             <Text style={styles.title}>Generate PDF IA</Text>
@@ -83,11 +73,17 @@ const SignIn = () => {
             mode="contained"
             onPress={formConfig.handleSubmit(onSubmit)}
             color={theme.colors.primary}
-            isLoading={loginMutation.isPending}
-            disabled={loginMutation.isPending}
+            isLoading={formConfig.formState.isSubmitting}
+            disabled={formConfig.formState.isSubmitting}
           >
             Iniciar Sesion
           </Button>
+
+          <View style={{ marginTop: 20 }}>
+            <Button onPress={() => router.replace("/register")}>
+              Registrarse
+            </Button>
+          </View>
         </View>
       </ScrollView>
     </FormProvider>
