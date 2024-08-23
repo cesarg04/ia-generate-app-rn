@@ -21,6 +21,8 @@ import { Modal, Portal } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import theme from "@/shared/theme/theme";
 
+
+
 const ModalContextProvider = ({ children }: IModalContextProviderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const promiseRef =
@@ -64,7 +66,7 @@ const ModalContextProvider = ({ children }: IModalContextProviderProps) => {
     >
       {children}
       {isOpen && (
-        <Portal  >
+        <Portal>
           <Modal
             visible={isOpen}
             // onDismiss={hideModal}
@@ -82,18 +84,23 @@ const ModalContextProvider = ({ children }: IModalContextProviderProps) => {
 export default ModalContextProvider;
 
 const styles = StyleSheet.create({
-    modalStyles: {
-        backgroundColor: theme.colors.secondary,
-        marginHorizontal: 20,
-        minHeight: 200,
-        borderRadius: 40,
-        padding: 10
-    },
-    wrap: {
-        width: '90%',
-        display: 'flex',
-        justifyContent:'center',
-        alignContent:'center',
-        alignItems:'center'
-    }
-})
+  modalStyles: {
+    backgroundColor: "#312B5C",
+    borderColor: "#6B5DB0",
+    borderWidth: 1,
+    padding: 16,
+    marginHorizontal: 20,
+    minHeight: 200,
+    borderRadius: 40,
+    // padding: 10,
+    // color: 'white',
+    // borderColor: 'white'
+  },
+  wrap: {
+    width: "90%",
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+  },
+});
