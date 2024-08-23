@@ -35,7 +35,7 @@ export const authService = () => {
   });
 
   return {
-    serviceMutation: registerMutation,
+    registerMutation,
     loginMutation,
     getCurrentUserMutation,
   };

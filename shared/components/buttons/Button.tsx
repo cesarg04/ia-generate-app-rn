@@ -3,7 +3,6 @@ import React from "react";
 import {
   ButtonProps,
   Button as ButtonPaper,
-  ActivityIndicator,
 } from "react-native-paper";
 import { fontFamilies } from "@/shared/constants/fonts.const";
 
@@ -27,11 +26,8 @@ const Button = (props: IButtonProps) => {
       fontFamily: Platform.select(fontFamilies.Bold),
       paddingTop: 10,
     },
-    children: props.isLoading ? (
-      <ActivityIndicator size={"large"} color="white" />
-    ) : (
-      props.children
-    ),
+    icon: props.icon ? props.icon : props.isLoading ? "loading" : undefined,
+    children: props.isLoading ? "" : props.children,
   };
 
   return <ButtonPaper {...config} />;
