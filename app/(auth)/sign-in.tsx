@@ -18,6 +18,7 @@ import { fontFamilies } from "@/shared/constants/fonts.const";
 import { authService } from "@/shared/models/services/auth/auth.service";
 import { ENVIRONMENT_VAR } from "@/shared/constants/env/env.const";
 import useModal from "@/shared/hooks/useModal";
+import CustomAlertTemplate from "@/shared/components/alert/CustomAlertTemplate";
 
 const SignIn = () => {
 
@@ -48,9 +49,7 @@ const SignIn = () => {
   useEffect(() => {
 
     modal({
-      template: <View>
-        <Text>This is the modal jajaj</Text>
-      </View>
+      template: <CustomAlertTemplate message="Hello word this is my first app in reacr native" type="info" />
     })
 
     // setTimeout(() => {
@@ -83,7 +82,9 @@ const SignIn = () => {
           <Button
             mode="contained"
             onPress={formConfig.handleSubmit(onSubmit)}
-            color={theme.colors.error}
+            color={theme.colors.primary}
+            isLoading={loginMutation.isPending}
+            disabled={loginMutation.isPending}
           >
             Iniciar Sesion
           </Button>

@@ -16,9 +16,8 @@ export const apiAdapter = {
             ...params,
         }),
     post: <T>(url: string, data: any, params?: object) =>{
-        console.log(data )
         {   
-            return axios.post<T>('http://10.0.0.3:9090/' + url, data, {
+            return axios.post<T>(ENVIRONMENT_VAR.API_URL + url, data, {
                 headers: {
                     "x-token": token,
                 },

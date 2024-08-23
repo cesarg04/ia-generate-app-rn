@@ -1,5 +1,6 @@
+import { EXPO_PUBIC_API_URL } from '@env'
 
 export const ENVIRONMENT_VAR = {
-    API_URL: process.env.EXPO_PUBIC_API_URL
+    API_URL: EXPO_PUBIC_API_URL
 }
 

@@ -17,8 +17,8 @@ import {
 } from "@expo-google-fonts/m-plus-rounded-1c";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { SafeAreaView } from "react-native";
 import ModalContext from "@/shared/contexts/modal/ModalContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const queryClient = new QueryClient();
 
@@ -48,8 +48,8 @@ const MainLayout = () => {
     <QueryClientProvider client={queryClient}>
       <PaperProvider theme={theme}>
         <ModalContext>
+          <StatusBar backgroundColor={theme.colors.background} style="light" />
           <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar backgroundColor="#0066B1" style="light" />
             <Stack
               screenOptions={{
                 headerShown: false,
