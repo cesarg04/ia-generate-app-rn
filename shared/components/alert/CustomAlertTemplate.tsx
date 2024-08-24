@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button, Text } from "react-native-paper";
 import theme from "@/shared/theme/theme";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 export interface ICustomAlertProps {
   type: "success" | "error" | "warning" | "info" | "default";
@@ -25,6 +25,8 @@ const CustomAlertTemplate = (props: ICustomAlertProps) => {
       props.type === "warning"
     );
   }, [props.type]);
+
+  useEffect(() => {}, [])
 
   return (
     <View style={styles.container}>
