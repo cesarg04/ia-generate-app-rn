@@ -16,17 +16,18 @@ import FormError from "@/shared/components/form-error/FormError";
 import FormLabel from "@/shared/components/form-label/FormLabel";
 import { fontFamilies } from "@/shared/constants/fonts.const";
 import { authService } from "@/shared/models/services/auth/auth.service";
-import { ENVIRONMENT_VAR } from "@/shared/constants/env/env.const";
-import useModal from "@/shared/hooks/useModal";
-import CustomAlertTemplate from "@/shared/components/alert/CustomAlertTemplate";
 import useAlert from "@/shared/hooks/useAlert";
 import theme from "@/shared/theme/theme";
-import { useNavigation, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
+import * as SecureStore from "expo-secure-store";
+import { EModalEventType } from "@/shared/contexts/modal/modal-context.types";
+import useAuthStore from "@/shared/store/auth.store";
 
 const SignIn = () => {
   const router = useRouter();
   const { loginMutation } = authService();
   const { alert } = useAlert();
+  const { login, user, token } = useAuthStore();
   const formConfig = useForm<SignInFormType>({
     defaultValues: signInFormDefaultValues,
     resolver: yupResolver(signInFormSchema),
@@ -34,17 +35,21 @@ const SignIn = () => {
 
   const onSubmit = async (values: SignInFormType) => {
     try {
-      const mutation = await loginMutation.mutateAsync({ body: { ...values } });
-      // alert({
-      //   message: "Usuario creado satisfactoriamente",
-      //   type: "info",
-      // });
+      const { data } = await loginMutation.mutateAsync({ body: { ...values } });
+      await SecureStore.setItemAsync("token", data.token);
+      alert({
+        message: "Usuario creado satisfactoriamente",
+        type: "info",
+      }).then((res) => {
+        if (res.type === EModalEventType.CONFIRM) {
+          login(data.user, data.token);
+          router.replace('/resources')
+        }
+      });
     } catch (error: any) {
       alert({
-        message: error.response.data,
+        message: error.response.data ?? "Error al iniciar sesion",
         type: "error",
-      }).then((data) => {
-        console.log();
       });
     }
   };

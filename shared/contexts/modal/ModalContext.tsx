@@ -2,6 +2,7 @@ import {
   createContext,
   ReactElement,
   useCallback,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -26,9 +27,10 @@ const ModalContextProvider = ({ children }: IModalContextProviderProps) => {
   const metaRef = useRef<IMetaRef>();
 
   const modal = useCallback((p: IModalFunctionOptions) => {
-    setIsOpen(true);
     metaRef.current = p;
-    console.log(metaRef, 'Meta ref')
+    if (metaRef.current) {
+      setIsOpen(true);
+    }
     return new Promise<IEventModal>((resolve) => {
       promiseRef.current = resolve;
     });
@@ -52,7 +54,11 @@ const ModalContextProvider = ({ children }: IModalContextProviderProps) => {
       promiseRef.current({ type: EModalEventType.CONFIRM, value });
   }, []);
 
-  console.log('meta red', metaRef.current?.template)
+  useEffect(() => {
+  
+    console.log("meta red", metaRef.current);
+  }, [metaRef])
+  
 
   return (
     <ModalsContext.Provider
@@ -68,10 +74,14 @@ const ModalContextProvider = ({ children }: IModalContextProviderProps) => {
         <Portal>
           <Modal
             visible={isOpen}
-            contentContainerStyle={[styles.modalStyles, metaRef.current?.options?.style]}
+            contentContainerStyle={[
+              styles.modalStyles,
+              metaRef.current?.options?.style,
+            ]}
             style={metaRef.current?.options?.style}
           >
-            {React.cloneElement(metaRef.current?.template as ReactElement, {})}
+            {metaRef.current?.template &&
+              React.cloneElement(metaRef.current?.template as ReactElement, {})}
           </Modal>
         </Portal>
       )}

@@ -58,7 +58,9 @@ const MainLayout = () => {
                 },
               }}
               initialRouteName="sign-in"
-            />
+            >
+              <Stack.Screen name="(resources)" options={{ headerShown: false }} />
+            </Stack>
           </SafeAreaView>
         </ModalContext>
       </PaperProvider>
