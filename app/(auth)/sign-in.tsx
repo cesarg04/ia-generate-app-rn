@@ -35,14 +35,14 @@ const SignIn = () => {
 
   const onSubmit = async (values: SignInFormType) => {
     try {
-      const { data } = await loginMutation.mutateAsync({ body: { ...values } });
-      await SecureStore.setItemAsync("token", data.token);
+      const { token, user } = await loginMutation.mutateAsync({ body: { ...values } });
+      await SecureStore.setItemAsync("token", token);
       alert({
         message: "Usuario creado satisfactoriamente",
         type: "info",
       }).then((res) => {
         if (res.type === EModalEventType.CONFIRM) {
-          login(data.user, data.token);
+          login(user, token);
           router.replace('/resources')
         }
       });

@@ -54,10 +54,7 @@ const ModalContextProvider = ({ children }: IModalContextProviderProps) => {
       promiseRef.current({ type: EModalEventType.CONFIRM, value });
   }, []);
 
-  useEffect(() => {
-  
-    console.log("meta red", metaRef.current);
-  }, [metaRef])
+  useEffect(() => {}, [])
   
 
   return (

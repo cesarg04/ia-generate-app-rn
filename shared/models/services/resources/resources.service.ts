@@ -1,4 +1,4 @@
-import { apiAdapter } from "@/shared/api/base.api";
+import { ApiAdapter } from "@/shared/api/base.api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { IGetListResponse } from "./responses/get-list-resources.response";
 import { ICreateResourceResponse } from "./responses/create-resource.response";
@@ -10,27 +10,40 @@ interface resourcesOptions {
 }
 
 export const resourcesServices = (options?: resourcesOptions) => {
+  const apiAdapter = new ApiAdapter();
+
+  // Asegúrate de inicializar el token antes de usar las queries o mutations
+  // await apiAdapter.initToken();
+
   const getListResources = useQuery({
     queryKey: [RESOURCES_KEYS.LIST_RESOURCES],
-    queryFn: () => apiAdapter.get<IGetListResponse[]>(ResourcesEndpoints.getResources),
+    queryFn: () =>
+      apiAdapter.get<IGetListResponse[]>(ResourcesEndpoints.getResources),
   });
 
   const getResourcesById = useQuery({
     queryKey: [RESOURCES_KEYS.RESOURCES_ID, options?.id],
     queryFn: () =>
-      apiAdapter.get<IGetListResponse>(ResourcesEndpoints.getResourcesById(options?.id!)),
+      apiAdapter.get<IGetListResponse>(
+        ResourcesEndpoints.getResourcesById(options?.id!),
+        undefined,
+        undefined,
+        true
+      ),
     enabled: options?.id !== undefined && options.id?.length > 0,
   });
 
   const createResource = useMutation({
     mutationFn: (q: string) => {
-      return apiAdapter.post<ICreateResourceResponse>(ResourcesEndpoints.createResource, {
-        title: q,
-      });
+      return apiAdapter.post<ICreateResourceResponse>(
+        ResourcesEndpoints.createResource,
+        {
+          title: q,
+        }
+      );
     },
     mutationKey: [RESOURCES_KEYS.CREATE_RESOURCES],
   });
-
   return {
     getListResources,
     getResourcesById,

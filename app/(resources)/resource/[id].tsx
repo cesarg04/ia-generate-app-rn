@@ -10,8 +10,8 @@ const ResourcesById = () => {
   const { getResourcesById } = resourcesServices({ id: id });
 
   const data = useMemo(
-    () => getResourcesById.data?.data,
-    [getResourcesById.data?.data]
+    () => getResourcesById.data,
+    [getResourcesById.data]
   );
 
   if (getResourcesById.isLoading) {
