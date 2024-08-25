@@ -20,7 +20,6 @@ export const resourcesServices = (options?: resourcesOptions) => {
     queryFn: () =>
       apiAdapter.get<IGetListResponse>(ResourcesEndpoints.getResourcesById(options?.id!)),
     enabled: options?.id !== undefined && options.id?.length > 0,
-    refetchInterval: 5000,
   });
 
   const createResource = useMutation({
