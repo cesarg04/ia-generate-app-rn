@@ -1,4 +1,6 @@
+import { ApiAdapter } from "@/shared/api/base.api";
 import { authService } from "@/shared/models/services/auth/auth.service";
+import useAuthStore from "@/shared/store/auth.store";
 import theme from "@/shared/theme/theme";
 import { useNavigation, useRouter } from "expo-router";
 import { useEffect } from "react";
@@ -8,12 +10,13 @@ import { ActivityIndicator, Button } from "react-native-paper";
 const index = () => {
   const router = useRouter();
   const { getCurrentUserMutation } = authService()
+  const { login } = useAuthStore()
 
   useEffect(() => {
     const mute = async() => {
       try {
         const mutation =  await getCurrentUserMutation.mutateAsync()
-        console.log('muation', mutation.data.token)
+        login(mutation.user, mutation.token)
         router.replace('resources')
         
       } catch (error) {
@@ -25,7 +28,6 @@ const index = () => {
   }, []);
 
   const onNavigate = () => {
-    console.log("Navigate");
     router.push("/sign-in");
   };
 

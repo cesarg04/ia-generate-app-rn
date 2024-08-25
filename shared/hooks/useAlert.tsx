@@ -9,17 +9,23 @@ const useAlert = () => {
 
   const alert = (props: ICustomAlertProps) => {
     return modal({
-      template: <CustomAlertTemplate {...props} onClose={onClose} onConfirm={onConfirm} />,
+      template: (
+        <CustomAlertTemplate
+          {...props}
+          onClose={onClose}
+          onConfirm={onConfirm}
+        />
+      ),
       options: {
         style: {
-          minHeight: 220
+          minHeight: 220,
         },
       },
     });
   };
 
-  useEffect(() => {}, [])
-  
+  useEffect(() => {}, []);
+
   return {
     alert,
   };
