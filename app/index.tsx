@@ -1,4 +1,4 @@
-import { ApiAdapter } from "@/shared/api/base.api";
+import { ApiAdapter } from "@/shared/api/api-adapter";
 import { authService } from "@/shared/models/services/auth/auth.service";
 import useAuthStore from "@/shared/store/auth.store";
 import theme from "@/shared/theme/theme";

@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { ENVIRONMENT_VAR } from "../constants/env/env.const";
 import * as SecureStore from "expo-secure-store";
+import { TApiAdapterPost, TApiAdapterGet, TApiAdapterPatch, TApiAdapterDelete } from "./api-adapter.types";
 
 export class ApiAdapter {
   private apiUrl: string;
@@ -34,12 +35,8 @@ export class ApiAdapter {
   }
 
   // Métodos para las peticiones
-  async get<T>(
-    url: string,
-    params?: object,
-    headers?: Record<string, string>,
-    requireToken: boolean = true
-  ): Promise<T> {
+  async get<T>(options: TApiAdapterGet): Promise<T> {
+    const { url, headers, params, requireToken = true } = options;
     if (requireToken && !this.token) {
       throw new Error("No token provided");
     }
@@ -53,12 +50,12 @@ export class ApiAdapter {
   }
 
   async post<T>(
-    url: string,
-    data: any,
-    params?: object,
-    headers?: Record<string, string>,
-    requireToken: boolean = true
+    options: TApiAdapterPost
   ): Promise<T> {
+    const { data, url, headers, params, requireToken= true } = options;
+    if (requireToken && !this.token) {
+      throw new Error("No token provided");
+    }
     const config: AxiosRequestConfig = {
       headers: this.buildHeaders(headers, requireToken),
       params,
@@ -69,12 +66,12 @@ export class ApiAdapter {
   }
 
   async patch<T>(
-    url: string,
-    data: any,
-    params?: object,
-    headers?: Record<string, string>,
-    requireToken: boolean = true
+    options: TApiAdapterPatch
   ): Promise<T> {
+    const { data, url, headers, params, requireToken = true } = options;
+    if (requireToken && !this.token) {
+      throw new Error("No token provided");
+    }
     const config: AxiosRequestConfig = {
       headers: this.buildHeaders(headers, requireToken),
       params,
@@ -85,11 +82,10 @@ export class ApiAdapter {
   }
 
   async delete<T>(
-    url: string,
-    params?: object,
-    headers?: Record<string, string>,
-    requireToken: boolean = true
+    options: TApiAdapterDelete
   ): Promise<T> {
+
+    const { url, headers, params, requireToken = true } = options
     const config: AxiosRequestConfig = {
       headers: this.buildHeaders(headers, requireToken),
       params,
