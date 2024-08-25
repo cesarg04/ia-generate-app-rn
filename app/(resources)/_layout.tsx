@@ -26,6 +26,7 @@ const MainLayout = () => {
           header: () =>  <HeaderComponent/>
         }}
         drawerContent={() => <DrawerListRender />}
+        
       ></Drawer>
     </GestureHandlerRootView>
   );
